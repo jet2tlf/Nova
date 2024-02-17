@@ -1,6 +1,6 @@
 namespace Nova.Syntax
 {
-    enum SyntaxKind
+    public enum SyntaxKind
     {
         NumberToken,
         WhitespaceToken,

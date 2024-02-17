@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Nova.Syntax
 {
-    sealed class ParenthesizedSyntax : ExpressionSyntax
+    public sealed class ParenthesizedSyntax : ExpressionSyntax
     {
         public override SyntaxKind Kind => SyntaxKind.ParenthesizedExpression;
         public SyntaxToken OpenParenthesisToken { get; }

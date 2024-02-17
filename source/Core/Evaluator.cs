@@ -4,7 +4,7 @@ using Nova.Syntax;
 
 namespace Nova.Core
 {
-    class Evaluator
+    public sealed class Evaluator
     {
         private readonly ExpressionSyntax _root;
 
@@ -20,7 +20,7 @@ namespace Nova.Core
 
         private int EvaluateExpression(ExpressionSyntax node)
         {
-            if (node is NumberSyntax n) return (int) n.NumberToken.Value;
+            if (node is LiteralSyntax n) return (int) n.LiteralToken.Value;
 
             if (node is BinarySyntax b)
             {

@@ -4,7 +4,7 @@ using Nova.Syntax;
 
 namespace Nova.Core
 {
-    class Lexer
+    internal sealed class Lexer
     {
         private readonly string _text;
         private int _position;
