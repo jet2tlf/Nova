@@ -2,18 +2,32 @@ namespace Nova.Syntax
 {
     public enum SyntaxKind
     {
-        NumberToken,
+        // Tokens
+        BadToken,
+        EndOfFileToken,
         WhitespaceToken,
+        NumberToken,
         PlusToken,
         MinusToken,
         StarToken,
         SlashToken,
+        BangToken,
+        AmpersandAmpersandToken,
+        PipePipeToken,
+        EqualsEqualsToken,
+        BangEqualsToken,
         OpenParenthesisToken,
         CloseParenthesisToken,
-        BadToken,
-        EndOfFileToken,
-        NumberExpression,
+        IdentifierToken,
+
+        // Keywords
+        FalseKeyword,
+        TrueKeyword,
+
+        // Expressions
+        LiteralExpression,
+        UnaryExpression,
         BinaryExpression,
-        ParenthesizedExpression
+        ParenthesizedExpression,
     }
 }

@@ -4,7 +4,7 @@ namespace Nova.Syntax
 {
     sealed class LiteralSyntax : ExpressionSyntax
     {
-        public override SyntaxKind Kind => SyntaxKind.NumberExpression;
+        public override SyntaxKind Kind => SyntaxKind.LiteralExpression;
         public SyntaxToken LiteralToken { get; }
 
         public LiteralSyntax(SyntaxToken literalToken)
