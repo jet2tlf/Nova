@@ -1,7 +1,6 @@
 using System;
 
 using Nova.Bound;
-using Nova.Syntax;
 
 namespace Nova.Core
 {
@@ -14,18 +13,18 @@ namespace Nova.Core
             _root = root;
         }
 
-        public int Evaluate()
+        public object Evaluate()
         {
             return EvaluateExpression(_root);
         }
 
-        private int EvaluateExpression(BoundExpression node)
+        private object EvaluateExpression(BoundExpression node)
         {
-            if (node is BoundLiteral n) return (int) n.Value;
+            if (node is BoundLiteral n) return n.Value;
 
             if (node is BoundUnary u)
             {
-                var operand = EvaluateExpression(u.Operand);
+                var operand = (int) EvaluateExpression(u.Operand);
 
                 switch (u.OperatorKind)
                 {
@@ -34,14 +33,14 @@ namespace Nova.Core
                     case BoundUnaryKind.Negation:
                         return -operand;
                     default:
-                        throw new Exception($"Unexpected binary operator {u.OperatorKind}");
+                        throw new Exception($"Unexpected unary operator {u.OperatorKind}");
                 }
             }
 
             if (node is BoundBinary b)
             {
-                var left = EvaluateExpression(b.Left);
-                var right = EvaluateExpression(b.Right);
+                var left = (int) EvaluateExpression(b.Left);
+                var right = (int) EvaluateExpression(b.Right);
 
                 switch (b.OperatorKind)
                 {

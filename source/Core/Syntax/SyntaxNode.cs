@@ -6,6 +6,6 @@ namespace Nova.Syntax
     {
         public abstract SyntaxKind Kind { get; }
 
-        public  abstract IEnumerable<SyntaxNode> GetChildren();
+        public abstract IEnumerable<SyntaxNode> GetChildren();
     }
 }

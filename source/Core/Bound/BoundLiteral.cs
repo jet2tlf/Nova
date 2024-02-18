@@ -4,11 +4,9 @@ namespace Nova.Bound
 {
     internal sealed class BoundLiteral : BoundExpression
     {
-        public object Value { get; }
-
-        public override Type Type => Value.GetType();
-
         public override BoundNodeKind Kind => BoundNodeKind.LiteralExpression;
+        public override Type Type => Value.GetType();
+        public object Value { get; }
 
         public BoundLiteral(object value)
         {

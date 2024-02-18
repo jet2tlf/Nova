@@ -16,54 +16,55 @@ namespace Nova.Bound
             switch (syntax.Kind)
             {
                 case SyntaxKind.LiteralExpression:
-                    return BindLiteral((LiteralSyntax)syntax);
+                    return BindLiteralExpression((LiteralSyntax)syntax);
                 case SyntaxKind.UnaryExpression:
-                    return BindUnary((UnarySyntax)syntax);
+                    return BindUnaryExpression((UnarySyntax)syntax);
                 case SyntaxKind.BinaryExpression:
-                    return BindBinary((BinarySyntax)syntax);
+                    return BindBinaryExpression((BinarySyntax)syntax);
                 default:
                     throw new Exception($"Unexpected syntax {syntax.Kind}");
             }
         }
 
-        private BoundExpression BindLiteral(LiteralSyntax syntax)
+        private BoundExpression BindLiteralExpression(LiteralSyntax syntax)
         {
-            var value = syntax.LiteralToken.Value as int? ?? 0;
+            var value = syntax.Value ?? 0;
             return new BoundLiteral(value);
         }
 
-        private BoundExpression BindUnary(UnarySyntax syntax)
+        private BoundExpression BindUnaryExpression(UnarySyntax syntax)
         {
             var boundOperand = BindExpression(syntax.Operand);
-            var boundKind = BindUnaryKind(syntax.OperatorToken.Kind, boundOperand.Type);
+            var boundOperatorKind = BindUnaryOperatorKind(syntax.OperatorToken.Kind, boundOperand.Type);
 
-            if (boundKind == null)
+            if (boundOperatorKind == null)
             {
-                _diagnostics.Add($"Unary operator '{syntax.OperatorToken.Text}' is not defined for type {boundOperand.Type}");
+                _diagnostics.Add($"Unary operator '{syntax.OperatorToken.Text}' is not defined for type {boundOperand.Type}.");
                 return boundOperand;
             }
 
-            return new BoundUnary(boundKind.Value, boundOperand);
+            return new BoundUnary(boundOperatorKind.Value, boundOperand);
         }
 
-        private BoundExpression BindBinary(BinarySyntax syntax)
+        private BoundExpression BindBinaryExpression(BinarySyntax syntax)
         {
             var boundLeft = BindExpression(syntax.Left);
             var boundRight = BindExpression(syntax.Right);
-            var boundKind = BindBinaryKind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);
+            var boundOperatorKind = BindBinaryOperatorKind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);
 
-            if (boundKind == null)
+            if (boundOperatorKind == null)
             {
-                _diagnostics.Add($"Binary operator '{syntax.OperatorToken.Text}' is not defined for type {boundLeft.Type} and {boundRight.Type}");
+                _diagnostics.Add($"Binary operator '{syntax.OperatorToken.Text}' is not defined for types {boundLeft.Type} and {boundRight.Type}.");
                 return boundLeft;
             }
 
-            return new BoundBinary(boundLeft, boundKind.Value, boundRight);
+            return new BoundBinary(boundLeft, boundOperatorKind.Value, boundRight);
         }
 
-        private BoundUnaryKind? BindUnaryKind(SyntaxKind kind, Type operandType)
+        private BoundUnaryKind? BindUnaryOperatorKind(SyntaxKind kind, Type operandType)
         {
-            if (operandType != typeof(int)) return null;
+            if (operandType != typeof(int))
+                return  null;
 
             switch (kind)
             {
@@ -76,9 +77,10 @@ namespace Nova.Bound
             }
         }
 
-        private BoundBinaryKind? BindBinaryKind(SyntaxKind kind, Type leftType, Type rightType)
+        private BoundBinaryKind? BindBinaryOperatorKind(SyntaxKind kind, Type leftType, Type rightType)
         {
-            if (leftType != typeof(int) || rightType != typeof(int)) return null;
+            if (leftType != typeof(int) || rightType != typeof(int))
+                return  null;
 
             switch (kind)
             {

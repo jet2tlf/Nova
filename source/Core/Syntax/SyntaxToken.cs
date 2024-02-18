@@ -5,7 +5,7 @@ namespace Nova.Syntax
 {
     public sealed class SyntaxToken : SyntaxNode
     {
-        public  override SyntaxKind Kind { get; }
+        public override SyntaxKind Kind { get; }
         public int Position { get; }
         public string Text { get; }
         public object Value { get; }
