@@ -3,6 +3,7 @@ namespace Nova.Bound
     internal enum BoundUnaryKind
     {
         Identity,
-        Negation
+        Negation,
+        LogicalNegation
     }
 }

@@ -5,6 +5,8 @@ namespace Nova.Bound
         Addition,
         Subtraction,
         Multiplication,
-        Division
+        Division,
+        LogicalAnd,
+        LogicalOr
     }
 }

@@ -63,38 +63,58 @@ namespace Nova.Bound
 
         private BoundUnaryKind? BindUnaryOperatorKind(SyntaxKind kind, Type operandType)
         {
-            if (operandType != typeof(int))
-                return  null;
-
-            switch (kind)
+            if (operandType == typeof(int))
             {
-                case SyntaxKind.PlusToken:
-                    return BoundUnaryKind.Identity;
-                case SyntaxKind.MinusToken:
-                    return BoundUnaryKind.Negation;
-                default:
-                    throw new Exception($"Unexpected unary operator {kind}");
+                switch (kind)
+                {
+                    case SyntaxKind.PlusToken:
+                        return BoundUnaryKind.Identity;
+                    case SyntaxKind.MinusToken:
+                        return BoundUnaryKind.Negation;
+                }
             }
+
+            if (operandType == typeof(bool))
+            {
+                switch (kind)
+                {
+                    case SyntaxKind.BangToken:
+                        return BoundUnaryKind.LogicalNegation;
+                }
+            }
+
+            return  null;
         }
 
         private BoundBinaryKind? BindBinaryOperatorKind(SyntaxKind kind, Type leftType, Type rightType)
         {
-            if (leftType != typeof(int) || rightType != typeof(int))
-                return  null;
-
-            switch (kind)
+            if (leftType == typeof(int) && rightType == typeof(int))
             {
-                case SyntaxKind.PlusToken:
-                    return BoundBinaryKind.Addition;
-                case SyntaxKind.MinusToken:
-                    return BoundBinaryKind.Subtraction;
-                case SyntaxKind.StarToken:
-                    return BoundBinaryKind.Multiplication;
-                case SyntaxKind.SlashToken:
-                    return BoundBinaryKind.Division;
-                default:
-                    throw new Exception($"Unexpected binary operator {kind}");
+                switch (kind)
+                {
+                    case SyntaxKind.PlusToken:
+                        return BoundBinaryKind.Addition;
+                    case SyntaxKind.MinusToken:
+                        return BoundBinaryKind.Subtraction;
+                    case SyntaxKind.StarToken:
+                        return BoundBinaryKind.Multiplication;
+                    case SyntaxKind.SlashToken:
+                        return BoundBinaryKind.Division;
+                }
             }
+
+            if (leftType == typeof(bool) && rightType == typeof(bool))
+            {
+                switch (kind)
+                {
+                    case SyntaxKind.AmpersandAmpersandToken:
+                        return BoundBinaryKind.LogicalAnd;
+                    case SyntaxKind.PipePipeToken:
+                        return BoundBinaryKind.LogicalOr;
+                }
+            }
+
+            return null;
         }
     }
 }

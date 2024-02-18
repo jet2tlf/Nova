@@ -24,14 +24,16 @@ namespace Nova.Core
 
             if (node is BoundUnary u)
             {
-                var operand = (int) EvaluateExpression(u.Operand);
+                var operand = EvaluateExpression(u.Operand);
 
                 switch (u.OperatorKind)
                 {
                     case BoundUnaryKind.Identity:
-                        return operand;
+                        return (int) operand;
                     case BoundUnaryKind.Negation:
-                        return -operand;
+                        return -(int) operand;
+                    case BoundUnaryKind.LogicalNegation:
+                        return !(bool) operand;
                     default:
                         throw new Exception($"Unexpected unary operator {u.OperatorKind}");
                 }
@@ -39,19 +41,23 @@ namespace Nova.Core
 
             if (node is BoundBinary b)
             {
-                var left = (int) EvaluateExpression(b.Left);
-                var right = (int) EvaluateExpression(b.Right);
+                var left = EvaluateExpression(b.Left);
+                var right = EvaluateExpression(b.Right);
 
                 switch (b.OperatorKind)
                 {
                     case BoundBinaryKind.Addition:
-                        return left + right;
+                        return (int) left + (int) right;
                     case BoundBinaryKind.Subtraction:
-                        return left - right;
+                        return (int) left - (int) right;
                     case BoundBinaryKind.Multiplication:
-                        return left * right;
+                        return (int) left * (int) right;
                     case BoundBinaryKind.Division:
-                        return left / right;
+                        return (int) left / (int) right;
+                    case BoundBinaryKind.LogicalAnd:
+                        return (bool) left && (bool) right;
+                    case BoundBinaryKind.LogicalOr:
+                        return (bool) left || (bool) right;
                     default:
                         throw new Exception($"Unexpected binary operator {b.OperatorKind}");
                 }
