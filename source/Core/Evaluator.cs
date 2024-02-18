@@ -1,16 +1,17 @@
 using System;
 
+using Nova.Bound;
 using Nova.Syntax;
 
 namespace Nova.Core
 {
-    public sealed class Evaluator
+    internal sealed class Evaluator
     {
-        private readonly ExpressionSyntax _root;
+        private readonly BoundExpression _root;
 
-        public Evaluator(ExpressionSyntax root)
+        public Evaluator(BoundExpression root)
         {
-            this._root = root;
+            _root = root;
         }
 
         public int Evaluate()
@@ -18,37 +19,44 @@ namespace Nova.Core
             return EvaluateExpression(_root);
         }
 
-        private int EvaluateExpression(ExpressionSyntax node)
+        private int EvaluateExpression(BoundExpression node)
         {
-            if (node is LiteralSyntax n) return (int) n.LiteralToken.Value;
+            if (node is BoundLiteral n) return (int) n.Value;
 
-            if (node is UnarySyntax u)
+            if (node is BoundUnary u)
             {
                 var operand = EvaluateExpression(u.Operand);
 
-                if (u.OperatorToken.Kind == SyntaxKind.PlusToken) return operand;
-                else if (u.OperatorToken.Kind == SyntaxKind.MinusToken) return -operand;
-                else throw new Exception($"Unexpected binary operator {u.OperatorToken.Kind}");
+                switch (u.OperatorKind)
+                {
+                    case BoundUnaryKind.Identity:
+                        return operand;
+                    case BoundUnaryKind.Negation:
+                        return -operand;
+                    default:
+                        throw new Exception($"Unexpected binary operator {u.OperatorKind}");
+                }
             }
 
-            if (node is BinarySyntax b)
+            if (node is BoundBinary b)
             {
                 var left = EvaluateExpression(b.Left);
                 var right = EvaluateExpression(b.Right);
 
-                if (b.OperatorToken.Kind == SyntaxKind.PlusToken)
-                    return left + right;
-                else if (b.OperatorToken.Kind == SyntaxKind.MinusToken)
-                    return left - right;
-                else if (b.OperatorToken.Kind == SyntaxKind.StarToken)
-                    return left * right;
-                else if (b.OperatorToken.Kind == SyntaxKind.SlashToken)
-                    return left / right;
-                else
-                    throw new Exception($"Unexpected binary operator {b.OperatorToken.Kind}");
+                switch (b.OperatorKind)
+                {
+                    case BoundBinaryKind.Addition:
+                        return left + right;
+                    case BoundBinaryKind.Subtraction:
+                        return left - right;
+                    case BoundBinaryKind.Multiplication:
+                        return left * right;
+                    case BoundBinaryKind.Division:
+                        return left / right;
+                    default:
+                        throw new Exception($"Unexpected binary operator {b.OperatorKind}");
+                }
             }
-
-            if (node is ParenthesizedSyntax p) return EvaluateExpression(p.Expression);
 
             throw new Exception($"Unexpected node {node.Kind}");
         }
