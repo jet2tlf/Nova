@@ -27,5 +27,7 @@ namespace Nova.Syntax
         UnaryExpression,
         BinaryExpression,
         ParenthesizedExpression,
+        EqualsEqualsToken,
+        BangEqualsToken,
     }
 }

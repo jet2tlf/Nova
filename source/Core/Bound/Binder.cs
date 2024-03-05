@@ -35,7 +35,7 @@ namespace Nova.Bound
         private BoundExpression BindUnaryExpression(UnarySyntax syntax)
         {
             var boundOperand = BindExpression(syntax.Operand);
-            var boundOperatorKind = BindUnaryOperatorKind(syntax.OperatorToken.Kind, boundOperand.Type);
+            var boundOperatorKind = BoundUnaryOperator.Bind(syntax.OperatorToken.Kind, boundOperand.Type);
 
             if (boundOperatorKind == null)
             {
@@ -43,14 +43,14 @@ namespace Nova.Bound
                 return boundOperand;
             }
 
-            return new BoundUnary(boundOperatorKind.Value, boundOperand);
+            return new BoundUnary(boundOperatorKind, boundOperand);
         }
 
         private BoundExpression BindBinaryExpression(BinarySyntax syntax)
         {
             var boundLeft = BindExpression(syntax.Left);
             var boundRight = BindExpression(syntax.Right);
-            var boundOperatorKind = BindBinaryOperatorKind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);
+            var boundOperatorKind = BoundBinaryOperator.Bind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);
 
             if (boundOperatorKind == null)
             {
@@ -58,63 +58,7 @@ namespace Nova.Bound
                 return boundLeft;
             }
 
-            return new BoundBinary(boundLeft, boundOperatorKind.Value, boundRight);
-        }
-
-        private BoundUnaryKind? BindUnaryOperatorKind(SyntaxKind kind, Type operandType)
-        {
-            if (operandType == typeof(int))
-            {
-                switch (kind)
-                {
-                    case SyntaxKind.PlusToken:
-                        return BoundUnaryKind.Identity;
-                    case SyntaxKind.MinusToken:
-                        return BoundUnaryKind.Negation;
-                }
-            }
-
-            if (operandType == typeof(bool))
-            {
-                switch (kind)
-                {
-                    case SyntaxKind.BangToken:
-                        return BoundUnaryKind.LogicalNegation;
-                }
-            }
-
-            return  null;
-        }
-
-        private BoundBinaryKind? BindBinaryOperatorKind(SyntaxKind kind, Type leftType, Type rightType)
-        {
-            if (leftType == typeof(int) && rightType == typeof(int))
-            {
-                switch (kind)
-                {
-                    case SyntaxKind.PlusToken:
-                        return BoundBinaryKind.Addition;
-                    case SyntaxKind.MinusToken:
-                        return BoundBinaryKind.Subtraction;
-                    case SyntaxKind.StarToken:
-                        return BoundBinaryKind.Multiplication;
-                    case SyntaxKind.SlashToken:
-                        return BoundBinaryKind.Division;
-                }
-            }
-
-            if (leftType == typeof(bool) && rightType == typeof(bool))
-            {
-                switch (kind)
-                {
-                    case SyntaxKind.AmpersandAmpersandToken:
-                        return BoundBinaryKind.LogicalAnd;
-                    case SyntaxKind.PipePipeToken:
-                        return BoundBinaryKind.LogicalOr;
-                }
-            }
-
-            return null;
+            return new BoundBinary(boundLeft, boundOperatorKind, boundRight);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Nova.Core
             {
                 var operand = EvaluateExpression(u.Operand);
 
-                switch (u.OperatorKind)
+                switch (u.Op.Kind)
                 {
                     case BoundUnaryKind.Identity:
                         return (int) operand;
@@ -35,7 +35,7 @@ namespace Nova.Core
                     case BoundUnaryKind.LogicalNegation:
                         return !(bool) operand;
                     default:
-                        throw new Exception($"Unexpected unary operator {u.OperatorKind}");
+                        throw new Exception($"Unexpected unary operator {u.Op}");
                 }
             }
 
@@ -44,7 +44,7 @@ namespace Nova.Core
                 var left = EvaluateExpression(b.Left);
                 var right = EvaluateExpression(b.Right);
 
-                switch (b.OperatorKind)
+                switch (b.Op.Kind)
                 {
                     case BoundBinaryKind.Addition:
                         return (int) left + (int) right;
@@ -59,7 +59,7 @@ namespace Nova.Core
                     case BoundBinaryKind.LogicalOr:
                         return (bool) left || (bool) right;
                     default:
-                        throw new Exception($"Unexpected binary operator {b.OperatorKind}");
+                        throw new Exception($"Unexpected binary operator {b.Op}");
                 }
             }
 
