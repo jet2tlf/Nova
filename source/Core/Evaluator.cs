@@ -58,6 +58,10 @@ namespace Nova.Core
                         return (bool) left && (bool) right;
                     case BoundBinaryKind.LogicalOr:
                         return (bool) left || (bool) right;
+                    case BoundBinaryKind.Equals:
+                        return Equals(left, right);
+                    case BoundBinaryKind.NotEquals:
+                        return !Equals(left, right);
                     default:
                         throw new Exception($"Unexpected binary operator {b.Op}");
                 }
