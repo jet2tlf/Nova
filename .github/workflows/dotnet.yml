@@ -1,4 +1,4 @@
-name: Build Debug For Windows
+name: Build For Windows
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
       
-    - name: Build
+    - name: Build Debug
       run: dotnet build --no-restore
       
     - name: Upload Build Artifact
