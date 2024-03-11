@@ -18,17 +18,23 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
-        
-    - name: Restore dependencies
-      run: dotnet restore
       
     - name: Build Debug
-      run: dotnet build --no-restore
+      run: dotnet build --self-contained
+
+    - name: Build Release
+      run: dotnet build --configuration Release --self-contained
       
-    - name: Upload Build Artifact
+    - name: Upload Debug Artifact
       uses: actions/upload-artifact@v4
       with:
         name: Debug
         path: |
-          bin/Debug/net8.0/Nova.exe
-          bin/Debug/net8.0/Nova.dll
+          bin/Debug/net8.0/win-x64
+
+    - name: Upload Release Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Debug
+        path: |
+          bin/Release/net8.0/win-x64
