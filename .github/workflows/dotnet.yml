@@ -1,4 +1,4 @@
-name: Build Debug For Windows
+name: Build For Windows
 
 on:
   push:
@@ -22,8 +22,11 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
       
-    - name: Build
-      run: dotnet build --no-restore
+    - name: Build Debug
+      run: dotnet build --no-restore --self-contained
+
+    - name: Build Release
+      run: dotnet build --configuration Release --no-restore --self-contained
       
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
@@ -32,3 +35,11 @@ jobs:
         path: |
           bin/Debug/net8.0/Nova.exe
           bin/Debug/net8.0/Nova.dll
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Release
+        path: |
+          bin/Release/net8.0/Nova.exe
+          bin/Release/net8.0/Nova.dll
