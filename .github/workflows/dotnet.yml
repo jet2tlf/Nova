@@ -18,15 +18,17 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+
+      run: dotnet publish win-x64
         
     - name: Restore dependencies
       run: dotnet restore
       
     - name: Build Debug
-      run: dotnet build --no-restore -r win-x64 --self-contained true
+      run: dotnet build --no-restore --self-contained true
 
     - name: Build Release
-      run: dotnet build --configuration Release --no-restore -r win-x64 --self-contained true
+      run: dotnet build --configuration Release --no-restore --self-contained true
       
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
