@@ -1,10 +1,17 @@
 using System;
+
 using Nova.Syntax;
 
 namespace Nova.Bound
 {
     internal sealed class BoundBinaryOperator
     {
+        public SyntaxKind SyntaxKind { get; }
+        public BoundBinaryKind Kind { get; }
+        public Type LeftType { get; }
+        public Type RightTye { get; }
+        public Type Type { get; }
+        
         private BoundBinaryOperator(SyntaxKind syntaxKind, BoundBinaryKind kind, Type type)
          : this(syntaxKind, kind, type, type, type) {}
 
@@ -19,12 +26,6 @@ namespace Nova.Bound
             RightTye = rightTye;
             Type = resultType;
         }
-
-        public SyntaxKind SyntaxKind { get; }
-        public BoundBinaryKind Kind { get; }
-        public Type LeftType { get; }
-        public Type RightTye { get; }
-        public Type Type { get; }
 
         private static BoundBinaryOperator[] _operators =
         {

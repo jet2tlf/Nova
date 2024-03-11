@@ -1,5 +1,3 @@
-using System;
-
 namespace Nova.Syntax
 {
     internal static class SyntaxFacts

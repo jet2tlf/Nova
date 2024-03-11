@@ -1,14 +1,18 @@
 using System;
+
 using Nova.Syntax;
 
 namespace Nova.Bound
 {
     internal sealed class BoundUnaryOperator
     {
+        public SyntaxKind SyntaxKind { get; }
+        public BoundUnaryKind Kind { get; }
+        public Type OperandType { get; }
+        public Type Type { get; }
+
         private BoundUnaryOperator(SyntaxKind syntaxKind, BoundUnaryKind kind, Type operandType)
-            : this(syntaxKind, kind, operandType, operandType)
-        {
-        }
+            : this(syntaxKind, kind, operandType, operandType) {}
 
         private BoundUnaryOperator(SyntaxKind syntaxKind, BoundUnaryKind kind, Type operandType, Type resultType)
         {
@@ -17,11 +21,6 @@ namespace Nova.Bound
             OperandType = operandType;
             Type = resultType;
         }
-
-        public SyntaxKind SyntaxKind { get; }
-        public BoundUnaryKind Kind { get; }
-        public Type OperandType { get; }
-        public Type Type { get; }
 
         private static BoundUnaryOperator[] _operators =
         {
