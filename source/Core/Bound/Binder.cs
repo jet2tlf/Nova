@@ -21,6 +21,8 @@ namespace Nova.Bound
                     return BindUnaryExpression((UnarySyntax)syntax);
                 case SyntaxKind.BinaryExpression:
                     return BindBinaryExpression((BinarySyntax)syntax);
+                case SyntaxKind.ParenthesizedExpression:
+                    return BindExpression(((ParenthesizedSyntax)syntax).Expression);
                 default:
                     throw new Exception($"Unexpected syntax {syntax.Kind}");
             }
