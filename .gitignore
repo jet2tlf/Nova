@@ -1,2 +1,5 @@
-/bin/
-/obj/
+./Nova/bin/
+./Nova/obj/
+
+./Core/bin/
+./Core/obj/
