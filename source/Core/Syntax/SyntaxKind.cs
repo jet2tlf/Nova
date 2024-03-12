@@ -12,8 +12,11 @@ namespace Nova.Syntax
         StarToken,
         SlashToken,
         BangToken,
+        EqualsToken,
         AmpersandAmpersandToken,
         PipePipeToken,
+        EqualsEqualsToken,
+        BangEqualsToken,
         OpenParenthesisToken,
         CloseParenthesisToken,
         IdentifierToken,
@@ -24,10 +27,10 @@ namespace Nova.Syntax
 
         // Expressions
         LiteralExpression,
+        NameExpression,
         UnaryExpression,
         BinaryExpression,
         ParenthesizedExpression,
-        EqualsEqualsToken,
-        BangEqualsToken,
+        AssignmentExpression,
     }
 }

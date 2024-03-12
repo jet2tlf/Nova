@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Nova.Core;
@@ -11,6 +12,7 @@ namespace Nova
         private static void Main()
         {
             var showTree = false;
+            var variables = new Dictionary<VariableSymbol, object>();
 
             Console.WriteLine("Nova 11.3 Copyright (C) 2024 zwlucas.rocks, Etec João Baptista de Lima Figueiredo");
 
@@ -35,9 +37,7 @@ namespace Nova
 
                 var syntaxTree = SyntaxTree.Parse(line);
                 var compilation = new Compilation(syntaxTree);
-                var result = compilation.Evaluate();
-
-                var diagnostics = result.Diagnostics;
+                var result = compilation.Evaluate(variables);
 
                 if (showTree)
                 {
@@ -46,13 +46,13 @@ namespace Nova
                     Console.ResetColor();
                 }
 
-                if (!diagnostics.Any())
+                if (!result.Diagnostics.Any())
                 {
                     Console.WriteLine(result.Value);
                 }
                 else
                 {
-                    foreach (var diagnostic in diagnostics)
+                    foreach (var diagnostic in result.Diagnostics)
                     {
                         Console.WriteLine();
 

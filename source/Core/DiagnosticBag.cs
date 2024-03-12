@@ -55,5 +55,11 @@ namespace Nova.Core
             var message = $"Binary operator '{text}' is not defined for types {type1} and {type2}.";
             Report(span, message);
         }
+
+        internal void ReportUndefinedName(TextSpan span, string name)
+        {
+            var message = $"Variable '{name}' doesn't exist.";
+            Report(span, message);
+        }
     }
 }
